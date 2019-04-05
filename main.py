@@ -2,6 +2,7 @@ import nltk
 from nltk.corpus import brown
 from pickle import dump
 
+
 # load brown
 brown_tagged_sents = brown.tagged_sents(categories='news')
 size = int(len(brown_tagged_sents) * 0.8)
@@ -33,7 +34,7 @@ tnt_tagger.train(train_sents)
 print('TnT tagger eval: ' + str(tnt_tagger.evaluate(test_sents)))
 
 output = open('tntTagger.pkl', 'wb')
-dump(unigram_tagger, output, -1)
+dump(tnt_tagger, output, -1)
 output.close()
 print('TnT tagger output saved')
 
@@ -44,17 +45,17 @@ perceptron_tagger.train(train_sents)
 print('Perceptron tagger eval: ' + str(perceptron_tagger.evaluate(test_sents)))
 
 output = open('perceptronTagger.pkl', 'wb')
-dump(unigram_tagger, output, -1)
+dump(perceptron_tagger, output, -1)
 output.close()
 print('Perceptron tagger output saved')
 
 
 # crf tagger
-crf_tagger = nltk.tag.CRFTagger()
-crf_tagger.train(train_sents)
+crf_tagger = nltk.CRFTagger()
+crf_tagger.train(train_sents, 'model.crf.tagger')
 print('CRF tagger eval: ' + str(crf_tagger.evaluate(test_sents)))
 
 output = open('crfTagger.pkl', 'wb')
-dump(unigram_tagger, output, -1)
+dump(crf_tagger, output, -1)
 output.close()
 print('CRF tagger output saved')
