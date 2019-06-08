@@ -14,14 +14,22 @@ test_sents = brown_tagged_sents[size:]
 print(len(train_sents))
 print(len(test_sents))
 
-from nltk.corpus import brown
-brown_news_tagged = brown.tagged_words(categories='news', tagset='universal')
-data = nltk.ConditionalFreqDist((word.lower(), tag) for (word, tag) in brown_news_tagged)
+# testing features
+# get most freq noun
+dummy_sents = "apple apple apple apple apple apple apple apple apple kicked banana"
+dummy_sents = nltk.word_tokenize(dummy_sents)
+dummy_sents_tagged = nltk.pos_tag(dummy_sents)
+dummy_fd = nltk.FreqDist(word for (word, tag) in dummy_sents_tagged if tag == 'NN')
+print(dummy_fd.most_common())
 
-for word in sorted(data.conditions()):
-     if len(data[word]) > 2:
-        tags = [tag for (tag, _) in data[word].most_common()]
-        print(word, ' '.join(tags))
+# from nltk.corpus import brown
+# brown_news_tagged = brown.tagged_words(categories='news', tagset='universal')
+# data = nltk.ConditionalFreqDist((word.lower(), tag) for (word, tag) in brown_news_tagged)
+#
+# for word in sorted(data.conditions()):
+#      if len(data[word]) > 2:
+#         tags = [tag for (tag, _) in data[word].most_common()]
+#         print(word, ' '.join(tags))
 
 # # unigram tagger
 # unigram_tagger = nltk.UnigramTagger(train_sents)
